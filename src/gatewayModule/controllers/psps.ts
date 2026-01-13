@@ -49,7 +49,7 @@ export async function registerPsp(req: FastifyRequest, reply: FastifyReply) {
       expected_monthly_volume, source_of_funds, license_number, website,
       approval_status, created_at
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_TIMESTAMP)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', CURRENT_TIMESTAMP)
   `).run(
     id,
     business_name,
@@ -76,7 +76,7 @@ export async function registerPsp(req: FastifyRequest, reply: FastifyReply) {
     expected_monthly_volume,
     source_of_funds,
     license_number,
-    approval_status: 'pending',
+    approval_status: 'approved',
     website,
     created_at: new Date().toISOString(),
     api_key: apiKey,

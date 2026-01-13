@@ -5,8 +5,8 @@ import { getChainAdapter } from "../adapters/index.ts";
 import { SUPPORTED_CHAINS } from "../utils/chains.ts";
 import dotenv from "dotenv";
 import { privateKeyToAccount } from "viem/accounts";
-import { createBicoPaymasterClient, createNexusClient, toNexusAccount } from "@biconomy/abstractjs";
-import { baseSepolia, polygonAmoy, arbitrumSepolia } from "viem/chains";
+import { createBicoPaymasterClient, createNexusClient, DEFAULT_MEE_VERSION, getMEEVersion, toNexusAccount } from "@biconomy/abstractjs";
+import { baseSepolia, polygonAmoy, arbitrumSepolia, mainnet } from "viem/chains";
 
 dotenv.config();
 
@@ -18,28 +18,34 @@ const BUNDLER_URLS: Record<Chain, string> = {
   base: process.env.BASE_BICONOMY_BUNDLER_URL!,
   polygon: process.env.POLYGON_BICONOMY_BUNDLER_URL!,
   arbitrum: process.env.ARBITRUM_BICONOMY_BUNDLER_URL!,
+  ethereum: process.env.ETHEREUM_BICONOMY_BUNDLER_URL!
 };
 
 const PAYMASTER_URLS: Record<Chain, string> = {
   base: process.env.BASE_BICONOMY_PAYMASTER_URL!,
   polygon: process.env.POLYGON_BICONOMY_PAYMASTER_URL!,
   arbitrum: process.env.ARBITRUM_BICONOMY_PAYMASTER_URL!,
+  ethereum: process.env.ETHEREUM_BICONOMY_PAYMASTER_URL!
 };
 
 const CHAIN_OBJECTS: Record<Chain, any> = {
   base: baseSepolia,
   polygon: polygonAmoy,
   arbitrum: arbitrumSepolia,
+  ethereum: mainnet,
 };
 export async function generateKernelWallet(paymentId: string, chain: Chain) {
   const saltIndex = BigInt("0x" + Buffer.from(paymentId).toString("hex").slice(0, 16));
 
   const nexusAccount = await toNexusAccount({
-    signer: owner,
-    transport: http(),
-    chain: CHAIN_OBJECTS[chain],
-    index: saltIndex, 
-  });
+      signer: owner,
+      chainConfiguration: {
+        chain: CHAIN_OBJECTS[chain],
+        transport: http(),
+        version: getMEEVersion(DEFAULT_MEE_VERSION),
+      },
+      index: saltIndex,
+    });
 
   const nexusClient = createNexusClient({
     account: nexusAccount,
@@ -69,12 +75,15 @@ export async function settleSmartWalletPayment({
 
   const TREASURY_WALLET = SUPPORTED_CHAINS[chain].treasuryWallet as `0x${string}`;
 
-  const nexusAccount = await toNexusAccount({
-    signer: owner,
-    transport: http(),
-    chain: CHAIN_OBJECTS[chain],
-    index: saltIndex, 
-  });
+   const nexusAccount = await toNexusAccount({
+      signer: owner,
+      chainConfiguration: {
+        chain: CHAIN_OBJECTS[chain],
+        transport: http(),
+        version: getMEEVersion(DEFAULT_MEE_VERSION),
+      },
+      index: saltIndex,
+    });
   console.log(`[🔐] Smart Account Address:`, nexusAccount.address);
 
   const nexusClient = createNexusClient({

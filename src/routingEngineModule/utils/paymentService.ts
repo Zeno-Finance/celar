@@ -1,5 +1,5 @@
 import db from "../../gatewayModule/connectors/db.ts";
-import { PendingPayment, Payment, RecordTxAttemptParams, MismatchedPaymentStatus } from "./types.ts";
+import { PendingPayment, Payment, MismatchedPaymentStatus } from "./types.ts";
 import crypto from "node:crypto";
 import { webhookOnFailure } from "./webhookHelpers.ts";
 

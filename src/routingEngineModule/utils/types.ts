@@ -1,6 +1,6 @@
 import { JsonRpcProvider } from "ethers";
 
-export type RouteCacheKey = `route:${string}-${string}-${string}`; // e.g. route:BASE-USDC-100.00
+export type RouteCacheKey = `route:${string}-${string}-${string}`;
 
 export interface CachedRouteEntry {
   candidates: RouteCandidate[];
@@ -8,11 +8,13 @@ export interface CachedRouteEntry {
 }
 
 export interface ChainConfig {
+  name?: Chain;
   priceFeedAddress: string;
   chainId: number;
   nativeToken: string;
-  usdcAddress: string;
+  usdcAddress?: string;
   usdtAddress?: string;
+  mneeAddress?: string;
   rpcUrl: string;
   // explorerUrl?: string;
   intermediaryWallet?: string;
@@ -30,12 +32,12 @@ export interface PendingPayment {
   status: "pending" | "confirmed"| "settling",
   psp_id: string;
 }
-
+export type ValidTokenSymbol = "USDC" | "USDT" | "MNEE";
 export interface Payment {
   id: string;
   merchant_id: string;
   amount: string;
-  currency: "USDC" | "USDT";
+  currency: ValidTokenSymbol;
   chain: string;
   status: 'pending' | 'confirmed'| 'settled' | 'failed'| 'settled_failed' | 'settling';
   psp_wallet: string; 
@@ -45,13 +47,14 @@ export interface Payment {
 }
 
 export interface ChainAdapter {
-    getEstimatedFee(amount: string, currency: "USDC" | "USDT"): Promise<string>;
+    getEstimatedFee(amount: string, currency: ValidTokenSymbol): Promise<string>;
     getEstimatedTime(): Promise<number>;
     checkHealth(): Promise<number>;
     getProvider(): JsonRpcProvider;
     getConfig(): {
-      usdcAddress: string;
-      usdtAddress: string;
+      usdcAddress?: string;
+      usdtAddress?: string;
+      mneeAddress?: string;
       priceFeedAddress: string;
       rpcUrl: string;
     };
@@ -65,7 +68,7 @@ export interface ChainAdapter {
   }
   
   
-export type Chain = 'base' | 'polygon' | 'arbitrum'
+export type Chain = 'base' | 'polygon' | 'arbitrum' | 'ethereum'
 export type MismatchedPaymentStatus = "underpaid" | "overpaid" | "sorted";
 
 export interface RouteCandidate {

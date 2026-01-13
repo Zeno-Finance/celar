@@ -6,13 +6,13 @@ import { checkRpcHealth, estimateAvgBlockTime, estimateFeeUSD } from "./adapterU
 import { DUMMY_TO } from "../utils/constants.ts";
 import { getTokenForChain } from "./tokens.ts";
 
-const provider = new JsonRpcProvider(SUPPORTED_CHAINS.base.rpcUrl);
+const provider = new JsonRpcProvider(SUPPORTED_CHAINS.ethereum.rpcUrl);
 
-export const baseAdapter: ChainAdapter = {
+export const ethereumAdapter: ChainAdapter = {
   async getEstimatedFee(amount, currency: ValidTokenSymbol) {
-    const cfg = SUPPORTED_CHAINS.base;
+    const cfg = SUPPORTED_CHAINS.ethereum;
 
-    const token = getTokenForChain("base", cfg, currency);
+    const token = getTokenForChain("ethereum", cfg, currency);
 
     const tokenContract = new Contract(token, erc20Abi, provider);
     const decimals: number = await tokenContract.decimals();
@@ -21,10 +21,10 @@ export const baseAdapter: ChainAdapter = {
       provider,
       tokenAddress: token,
       intermediaryWallet: cfg.intermediaryWallet ?? DUMMY_TO,
-      priceFeedAddress: cfg.priceFeedAddress,
+      priceFeedAddress: cfg.priceFeedAddress!,
       currencyDecimals: decimals,
       fallbackGasLimit: 60_000n,
-      fallbackGasApi: "https://base.blockscout.com/api/v1/gas-price-oracle",
+      fallbackGasApi: "https://eth.blockscout.com/api/v1/gas-price-oracle",
     });
   },
 
@@ -41,10 +41,9 @@ export const baseAdapter: ChainAdapter = {
   },
 
   getConfig() {
-    const cfg = SUPPORTED_CHAINS.base;
+    const cfg = SUPPORTED_CHAINS.ethereum;
     return {
-      usdcAddress: cfg.usdcAddress,
-      usdtAddress: cfg.usdtAddress,
+      mneeAddress: cfg.mneeAddress,
       priceFeedAddress: cfg.priceFeedAddress,
       rpcUrl: cfg.rpcUrl,
     };

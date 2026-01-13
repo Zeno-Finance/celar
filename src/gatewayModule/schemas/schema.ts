@@ -1,5 +1,26 @@
 import { z } from 'zod';
 
+export const tokensymbol = z.preprocess(
+  (val) => {
+    if (typeof val !== "string") return val;
+    const normalized = val.trim().toLowerCase();
+
+   
+    if (normalized === "usdc") return "USDC";
+    if (
+      normalized === "usdt" ||
+      normalized === "tether" ||
+      normalized === "tether usd" ||
+      normalized === "usdt0"
+    )
+      return "USDT";
+    if (normalized === "mnee") return "MNEE";
+    return val;
+  },
+  z.enum(["USDC", "USDT", "MNEE"], {
+    message: "Token must be either 'USDC', 'USDT' or 'MNEE'",
+  })
+);
 export const registerPspSchema = z.object({
   business_name: z.string().min(1, 'Name is required').trim(),
   contact_email: z.string().email('Invalid email').trim(),
@@ -41,7 +62,7 @@ export const webhookUpdateSchema = z.object({
 
 export const withdrawalSchema = z.object({
   amount: z.string().trim().regex(/^[0-9]+(\.[0-9]{1,2})?$/, 'Invalid amount'),
-  currency: z.enum(['USDC', 'USDT']),
+  currency: tokensymbol,
   destination: z.string().trim().startsWith('0x').length(42).optional()
 });
 
@@ -66,8 +87,8 @@ export const initiatePaymentSchema = z.object({
   .refine(val => parseFloat(val) >= 0.01, {
     message: 'Amount must be at least 0.01'
   }),
-  currency: z.enum(['USDC', 'USDT']),
-  chain: z.enum(['base', 'polygon', 'best', 'arbitrum']),
+  currency: tokensymbol,
+  chain: z.enum(['base', 'polygon', 'best', 'arbitrum', 'ethereum']),
   reference: z.string().trim().min(1),
   description: z.string().trim().min(1),
   metadata: z.record(z.any())

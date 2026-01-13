@@ -40,5 +40,13 @@ arbitrum: {
   priceFeedAddress: mustGetEnv('ARB_CHAILINK_ADDRESS'),
   rpcUrl: mustGetEnv('ARB_RPC_URL'),
   treasuryWallet: mustGetEnv('TREASURY_WALLET'),
+},
+ethereum: {
+  chainId: 1, // mainnet
+  nativeToken: 'ETH',
+  mneeAddress: mustGetEnv('ETH_MNEE_ADDRESS'),
+  priceFeedAddress: mustGetEnv('ETH_CHAILINK_ADDRESS'),
+  rpcUrl: mustGetEnv('ETH_RPC_URL'),
+  treasuryWallet: mustGetEnv('TREASURY_WALLET'),
 }
 };

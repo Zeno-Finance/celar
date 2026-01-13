@@ -7,8 +7,8 @@ export async function getMerchantBalance(req: FastifyRequest, reply: FastifyRepl
 
   const currency = (req.query as any)?.currency?.toUpperCase() || 'USDC';
 
-  if (!['USDC', 'USDT'].includes(currency)) {
-    return reply.status(400).send({ error: 'Unsupported currency. Use USDC or USDT.' });
+  if (!['USDC', 'USDT', 'MNEE'].includes(currency)) {
+    return reply.status(400).send({ error: 'Unsupported currency. Use USDC, MNEE or USDT.' });
   }
   // Check merchant exists and is owned by PSP
   const merchant = db.prepare(`

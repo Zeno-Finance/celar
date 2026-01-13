@@ -18,8 +18,23 @@ export async function getTokenBalance(wallet: string, token: string, chain: Chai
   });
 }
 
-const CONFIRMATIONS: Record<Chain, number> = { base: 4, polygon: 8, arbitrum:3 };
+const CONFIRMATIONS: Record<Chain, number> = { base: 4, polygon: 8, arbitrum:3, ethereum: 5 };
 
+export type BaseError = {
+  message: string;
+  statusCode?: number;
+};
+
+export class CustomError extends Error {
+  public statusCode: number;
+
+  constructor({ message, statusCode = 500 }: BaseError) {
+    super(message);
+    this.statusCode = statusCode;
+
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
+}
 export async function waitForConfirmations({
   provider,
   txBlockNumber,

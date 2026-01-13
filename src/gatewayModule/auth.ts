@@ -14,7 +14,7 @@ export async function requireApiKey(request: FastifyRequest, reply: FastifyReply
   
   if (!psp) return reply.status(401).send({ error: 'Invalid API key' });
 
-  //check if they have been approved
+
   if (psp.approval_status !== 'approved') {
     return reply.status(403).send({
       error: 'Your DEV account is not approved yet. Please wait for admin approval.'
