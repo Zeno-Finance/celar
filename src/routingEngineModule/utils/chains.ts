@@ -21,16 +21,6 @@ export const SUPPORTED_CHAINS: Record<Chain, ChainConfig> = {
     rpcUrl: mustGetEnv('BASE_RPC_URL'),
     treasuryWallet: mustGetEnv('TREASURY_WALLET'),
   },
-  polygon: {
-    // chainId: 137,
-    chainId: 80002, // testnet
-    nativeToken: 'MATIC',
-    usdcAddress: mustGetEnv('POLYGON_USDC_ADDRESS'),
-    usdtAddress: mustGetEnv('POLYGON_USDT_ADDRESS'),
-    priceFeedAddress: mustGetEnv('POLYGON_CHAILINK_ADDRESS'),
-    rpcUrl: mustGetEnv('POLYGON_RPC_URL'),
-    treasuryWallet: mustGetEnv('TREASURY_WALLET'),
-  },
 arbitrum: {
   // chainId: 137,
   chainId: 421614, // testnet

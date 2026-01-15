@@ -88,7 +88,7 @@ export const initiatePaymentSchema = z.object({
     message: 'Amount must be at least 0.01'
   }),
   currency: tokensymbol,
-  chain: z.enum(['base', 'polygon', 'best', 'arbitrum', 'ethereum']),
+  chain: z.enum(['base', 'best', 'arbitrum', 'ethereum']),
   reference: z.string().trim().min(1),
   description: z.string().trim().min(1),
   metadata: z.record(z.any())

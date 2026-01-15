@@ -37,7 +37,6 @@ In this project:
 | -------- | ---------------- |
 | Ethereum | MNEE             |
 | Base     | USDC, USDT       |
-| Polygon  | USDC, USDT       |
 | Arbitrum | USDC, USDT       |
 | Testnets | USDC, USDT       |
 

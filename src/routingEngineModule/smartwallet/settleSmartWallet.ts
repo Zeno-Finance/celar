@@ -6,7 +6,7 @@ import { SUPPORTED_CHAINS } from "../utils/chains.ts";
 import dotenv from "dotenv";
 import { privateKeyToAccount } from "viem/accounts";
 import { createBicoPaymasterClient, createNexusClient, DEFAULT_MEE_VERSION, getMEEVersion, toNexusAccount } from "@biconomy/abstractjs";
-import { baseSepolia, polygonAmoy, arbitrumSepolia, mainnet } from "viem/chains";
+import { baseSepolia, arbitrumSepolia, mainnet } from "viem/chains";
 
 dotenv.config();
 
@@ -16,21 +16,18 @@ const owner = privateKeyToAccount(privateKey as `0x${string}`);
 // URLs and Chain Mapping
 const BUNDLER_URLS: Record<Chain, string> = {
   base: process.env.BASE_BICONOMY_BUNDLER_URL!,
-  polygon: process.env.POLYGON_BICONOMY_BUNDLER_URL!,
   arbitrum: process.env.ARBITRUM_BICONOMY_BUNDLER_URL!,
   ethereum: process.env.ETHEREUM_BICONOMY_BUNDLER_URL!
 };
 
 const PAYMASTER_URLS: Record<Chain, string> = {
   base: process.env.BASE_BICONOMY_PAYMASTER_URL!,
-  polygon: process.env.POLYGON_BICONOMY_PAYMASTER_URL!,
   arbitrum: process.env.ARBITRUM_BICONOMY_PAYMASTER_URL!,
   ethereum: process.env.ETHEREUM_BICONOMY_PAYMASTER_URL!
 };
 
 const CHAIN_OBJECTS: Record<Chain, any> = {
   base: baseSepolia,
-  polygon: polygonAmoy,
   arbitrum: arbitrumSepolia,
   ethereum: mainnet,
 };

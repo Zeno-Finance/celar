@@ -68,7 +68,7 @@ export interface ChainAdapter {
   }
   
   
-export type Chain = 'base' | 'polygon' | 'arbitrum' | 'ethereum'
+export type Chain = 'base' | 'arbitrum' | 'ethereum'
 export type MismatchedPaymentStatus = "underpaid" | "overpaid" | "sorted";
 
 export interface RouteCandidate {
