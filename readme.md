@@ -106,6 +106,11 @@ Run the listener service in a separate terminal:
 npm run dev:listener
 ```
 
+### ⚠️ Important Note on Testing
+> The steps below use Celar’s hosted API environment.
+> By following this method, you are running the full pay-in flow against the live hosted backend, including routing, smart wallet generation, on-chain listening, and settlement logic.
+>
+> No local services are required to test this flow.
 
 ## How to Test the Full Pay-In Flow
 
